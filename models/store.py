@@ -17,8 +17,7 @@ class StoreModel(db.Model):
     def __init__(self, name: str):
         self.name = name
 
-    @classmethod
-    def json(cls) -> StoreJSON:
+    def json(self) -> StoreJSON:
         return {
             "id": self.id,
             "name": self.name,
@@ -33,12 +32,10 @@ class StoreModel(db.Model):
     def find_all(cls) -> List["StoreModel"]:
         return cls.query.all()
 
-    @classmethod
-    def save_to_db(cls) -> None:
+    def save_to_db(self) -> None:
         db.session.add(self)
         db.session.commit()
 
-    @classmethod
-    def delete_from_db(cls) -> None:
+    def delete_from_db(self) -> None:
         db.session.delete(self)
         db.session.commit()

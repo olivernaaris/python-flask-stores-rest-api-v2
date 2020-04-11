@@ -31,7 +31,7 @@ class Item(Resource):
         if ItemModel.find_by_name(name):
             return {"message": NAME_ALREADY_EXISTS.format(name)}, 400
 
-        data = Item.parser.parse_args()
+        data = cls.parser.parse_args()
 
         item = ItemModel(name, **data)
 
@@ -49,11 +49,11 @@ class Item(Resource):
         if item:
             item.delete_from_db()
             return {"message": ITEM_DELETED}, 200
-        return {"message": ITEM_NOT_FOUND}, 404
+        return {"message": ITEM_DELETED}, 404
 
     @classmethod
     def put(cls, name: str):
-        data = Item.parser.parse_args()
+        data = cls.parser.parse_args()
 
         item = ItemModel.find_by_name(name)
 
