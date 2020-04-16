@@ -3,7 +3,7 @@ from flask import request, url_for
 
 from db import db
 from libs.mailgun import Mailgun
-from models.conformation import ConfirmationModel
+from models.confirmation import ConfirmationModel
 
 
 class UserModel(db.Model):
@@ -20,7 +20,8 @@ class UserModel(db.Model):
 
     @property
     def most_recent_confirmation(self) -> "ConfirmationModel":
-        return self.confirmation.order_by(db.desc(ConfirmationModel)).first()
+        # ordered by expiration time (in descending order)
+        return self.confirmation.order_by(db.desc(ConfirmationModel.expire_at)).first()
 
     @classmethod
     def find_by_username(cls, username: str) -> "UserModel":
