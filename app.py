@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask_migrate import Migrate
 from marshmallow import ValidationError
 from flask_uploads import configure_uploads, patch_request_class
 from dotenv import load_dotenv
@@ -37,6 +38,7 @@ def handle_marshmallow_validation(err):
     return jsonify(err.messages), 400
 
 
+migrate = Migrate(app, db)
 jwt = JWTManager(app)
 
 

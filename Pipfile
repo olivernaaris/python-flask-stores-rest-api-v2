@@ -14,6 +14,8 @@ flask-marshmallow = "*"
 marshmallow-sqlalchemy = "*"
 marshmallow = "*"
 flask-uploads = {git = "https://github.com/maxcountryman/flask-uploads.git",ref = "master"}
+psycopg2-binary = "*"
+flask-migrate = "*"
 
 [dev-packages]
 
