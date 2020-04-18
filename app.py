@@ -15,6 +15,7 @@ from resources.store import Store, StoreList
 from resources.confirmation import Confirmation, ConfirmationByUser
 from resources.image import ImageUpload, Image, AvatarUpload, Avatar
 from libs.image_helper import IMAGE_SET
+from resources.order import Order
 
 
 app = Flask(__name__)
@@ -26,6 +27,7 @@ app.config.from_envvar(
 patch_request_class(app, 10 * 1024 * 1024)  # restrict max upload image size to 10MB
 configure_uploads(app, IMAGE_SET)
 api = Api(app)
+migrate = Migrate(app, db)
 
 
 @app.before_first_request
@@ -38,7 +40,6 @@ def handle_marshmallow_validation(err):
     return jsonify(err.messages), 400
 
 
-migrate = Migrate(app, db)
 jwt = JWTManager(app)
 
 
@@ -63,8 +64,9 @@ api.add_resource(ImageUpload, "/upload/image")
 api.add_resource(Image, "/image/<string:filename>")
 api.add_resource(AvatarUpload, "/upload/avatar")
 api.add_resource(Avatar, "/avatar/<int:user_id>")
+api.add_resource(Order, "/order")
 
+db.init_app(app)
 if __name__ == "__main__":
-    db.init_app(app)
     ma.init_app(app)
     app.run(port=5000, debug=True)
